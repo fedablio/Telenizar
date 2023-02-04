@@ -1,0 +1,285 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Telenizar - Dispositivo</title>
+    </h:head>
+    <h:body style="font-size: 12px; background-color: white;">
+        <center>
+            <p:panel>
+                <p:panel>
+                    <h:form id="form0">
+                        <p:panel style="width: auto; height: 50px;">
+                            <p:commandLink value="#{dispositivoBean.sessao}" actionListener="#{vaiBean.sair()}" title="#{vaiBean.titleLink1}"/>
+                        </p:panel>
+                        <p:menubar>
+                            <p:submenu label="Página" icon="ui-icon-transferthick-e-w">
+                                <p:menuitem value="Dispositivo" icon="ui-icon-lightbulb" actionListener="#{vaiBean.p_apple()}"/>
+                                <p:separator/>
+                                <p:menuitem value="EUI-64" icon="ui-icon-bullet" actionListener="#{vaiBean.p_lemon()}"/>
+                                <p:separator/>
+                                <p:menuitem value="Timbre" icon="ui-icon-mail-closed" actionListener="#{vaiBean.p_fig()}"/>
+                            </p:submenu>
+                            <p:submenu label="Zhone/DZS" icon="ui-icon-star">
+                                <p:menuitem value="Acesso Remoto" icon="ui-icon-contact" actionListener="#{vaiBean.p_cherry()}"/>
+                                <p:menuitem value="Reprovisionar" icon="ui-icon-minusthick" actionListener="#{vaiBean.p_guava()}"/>
+                                <p:submenu label="5G" icon="ui-icon-pin-w">
+                                    <p:menuitem value="OLT" icon="ui-icon-arrowthickstop-1-n" actionListener="#{vaiBean.p_cocoa()}"/>
+                                    <p:menuitem value="ONT" icon="ui-icon-arrowthickstop-1-s" actionListener="#{vaiBean.p_peach()}"/>
+                                </p:submenu>
+                                <p:menuitem value="NA" icon="ui-icon-radio-off" actionListener="#{vaiBean.p_plum()}"/>
+                                <p:menuitem value="Firmware (Up/Down)" icon="ui-icon-copy" actionListener="#{vaiBean.p_melon()}"/>
+                            </p:submenu>
+                            <p:submenu label="Arquivo" icon="ui-icon-document" >
+                                <p:menuitem value="Novo" icon="ui-icon-stop" oncomplete="PF('widgetVar2').show()" disabled="#{dispositivoBean.disabled4}" title="#{vaiBean.titleMenu1}"/>
+                                <p:separator/>
+                                <p:menuitem value="Administrador" icon="ui-icon-person" actionListener="#{vaiBean.p_orange()}" disabled="#{dispositivoBean.disabled5}" />
+                            </p:submenu>
+                        </p:menubar>
+                    </h:form>
+                </p:panel>
+                <p:panel>
+                    <h4 style="margin-top:0">Cadastro de dispositivos</h4>
+                    <font style="margin-top:0">Porcentagem dos equipamentos com ou sem nuvem e com ou sem IPv6.</font>
+                </p:panel>
+                <p:panel>
+                    <h:form id="form6">
+                        <h:panelGrid columns="2">
+                            <p:chart type="pie" model="#{dispositivoBean.pieModel1}" style="width:245px; height:170px" />
+                            <p:chart type="pie" model="#{dispositivoBean.pieModel2}" style="width:245px; height:170px" />
+                            <p:chart type="pie" model="#{dispositivoBean.pieModel3}" style="width:245px; height:170px" />
+                            <p:chart type="pie" model="#{dispositivoBean.pieModel4}" style="width:245px; height:170px" />
+                        </h:panelGrid>
+                        <p:outputLabel value="Total cadastrados: "/><br/>
+                        <p:outputLabel value="#{dispositivoBean.total_dispositivo}" style="font: bold;"/>
+                    </h:form>
+                </p:panel>
+                <p:panel>
+                    <h4 style="margin-top:0">Lista de dispositivos</h4>
+                    <font style="margin-top:0">IPv6, cloud e links dos manuais. Os mais variados detalhes.</font>
+                </p:panel>
+                <p:panel>
+                    <h:form id="form1">
+                        <p:dataTable id="dataTable1" var="d" value="#{dispositivoBean.listarTodos}" selection="#{dispositivoBean.dispositivoSelecionado}" selectionMode="single" rowKey="#{d.codigo_dispositivo}" widgetVar="widgetVar1" emptyMessage="Sem dados." paginator="true" rows="10" filteredValue="#{dispositivoBean.listarTodosFiltro}" rowsPerPageTemplate="20,50,100" style="width: auto;">
+
+                            <p:column headerText="Código" filterBy="#{d.codigo_dispositivo}" sortBy="#{d.codigo_dispositivo}" filterMatchMode="exact" style="text-align: center;">
+                                <p:outputLabel value="#{d.codigo_dispositivo}"/>
+                            </p:column>
+
+                            <p:column headerText="Marca" filterBy="#{d.marca_dispositivo}" sortBy="#{d.marca_dispositivo}" filterMatchMode="contains" style="text-align: center;">
+                                <p:outputLabel value="#{d.marca_dispositivo}"/>
+                            </p:column>
+
+                            <p:column headerText="Modelo" filterBy="#{d.modelo_dispositivo}" sortBy="#{d.modelo_dispositivo}" filterMatchMode="contains" style="text-align: center;">
+                                <p:outputLabel value="#{d.modelo_dispositivo}"/>
+                            </p:column>
+
+                            <p:column headerText="Porta (IPv4)" filterBy="#{d.porta_dispositivo}" filterMatchMode="contains" style="text-align: center;">
+                                <p:outputLabel value="#{d.porta_dispositivo}" />
+                            </p:column>
+
+                            <p:column filterBy="#{d.nuvem_dispositivo}" headerText="Nuvem" filterMatchMode="exact" style="text-align: center;">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu onchange="PF('widgetVar1').filter();" >
+                                        <f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Desconhecido" itemValue="I" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Sim" itemValue="S" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Não" itemValue="N" noSelectionOption="true" />
+                                    </p:selectOneMenu>
+                                </f:facet>
+                                <h:graphicImage value="#{d.nuvem_dispositivo == 'I' ? '/imagem/des.png' : '' || d.nuvem_dispositivo == 'S' ? '/imagem/sim.png' : '' || d.nuvem_dispositivo == 'N' ? '/imagem/nao.png' : ''}" />
+                            </p:column>
+
+                            <p:column filterBy="#{d.ipv6_dispositivo}" headerText="IPv6" filterMatchMode="exact" style="text-align: center;">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu onchange="PF('widgetVar1').filter();" >
+                                        <f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Desconhecido" itemValue="I" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Sim" itemValue="S" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Não" itemValue="N" noSelectionOption="true" />
+                                    </p:selectOneMenu>
+                                </f:facet>
+                                <h:graphicImage value="#{d.ipv6_dispositivo == 'I' ? '/imagem/des.png' : '' || d.ipv6_dispositivo == 'S' ? '/imagem/sim.png' : '' || d.ipv6_dispositivo == 'N' ? '/imagem/nao.png' : ''}" />
+                            </p:column>
+
+                            <p:ajax event="rowSelect" update="commandButton1, commandButton2, commandButton3" listener="#{dispositivoBean.onRowSelect(event)}" />
+                            <f:facet name="footer">
+                                <p:commandButton value="Alterar" id="commandButton1" update=":form3:outputPanel3" oncomplete="PF('widgetVar3').show()" disabled="#{dispositivoBean.disabled1}" title="#{vaiBean.titleButton1}" style="width: 200px; height: 45px;"/>
+                                <p:commandButton value="Excluir" id="commandButton2" update=":form4:outputPanel4" oncomplete="PF('widgetVar4').show()" disabled="#{dispositivoBean.disabled2}" title="#{vaiBean.titleButton2}" style="width: 200px; height: 45px;"/>
+                                <p:commandButton value="Detalhar" id="commandButton3" update=":form5:outputPanel5" oncomplete="PF('widgetVar5').show()" disabled="#{dispositivoBean.disabled3}" title="Selecione algum registro para detalhar." style="width: 200px; height: 45px;"/>
+                            </f:facet>
+                        </p:dataTable>
+                    </h:form>
+                </p:panel>
+                <h:form id="form2">
+                    <p:dialog header="Dispositivo - Inserir" widgetVar="widgetVar2" modal="true" closable="false">
+                        <p:outputPanel id="outputPanel2">
+                            <p:messages id="msg" />
+                            <p:fieldset>
+                                <h:panelGrid columns="1">
+                                    <p:inputText value="#{dispositivoBean.dispositivo.marca_dispositivo}" placeholder="Marca (Ex.: Intelbras) *" style="width: 600px; height: 35px;"/>
+
+                                    <p:inputText value="#{dispositivoBean.dispositivo.modelo_dispositivo}" placeholder="Modelo (Ex.: MHDX 1004) *" style="width: 600px; height: 35px;"/>
+
+                                    <p:inputTextarea value="#{dispositivoBean.dispositivo.porta_dispositivo}" placeholder="Porta (Ex.: 8080)" style="width: 600px; height: 70px;"/>
+
+                                    <p:inputText value="#{dispositivoBean.dispositivo.manual_dispositivo}" placeholder="Manual (Ex.: http://intelbras.com.br/download/mhdx1004)" style="width: 600px; height: 35px;"/>
+
+                                    <p:selectOneMenu value="#{dispositivoBean.dispositivo.nuvem_dispositivo}" style="width: 610px; height: 35px;">
+                                        <f:selectItem itemLabel="Nuvem (Cloud)" itemValue="" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Desconhecido" itemValue="I" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Sim" itemValue="S" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Não" itemValue="N" noSelectionOption="true" />
+                                    </p:selectOneMenu>
+
+                                    <p:selectOneMenu value="#{dispositivoBean.dispositivo.ipv6_dispositivo}" style="width: 610px; height: 35px;">
+                                        <f:selectItem itemLabel="IPv6" itemValue="" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Desconhecido" itemValue="I" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Sim" itemValue="S" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Não" itemValue="N" noSelectionOption="true" />
+                                    </p:selectOneMenu>
+
+                                    <p:inputTextarea value="#{dispositivoBean.dispositivo.observacao_dispositivo}" placeholder="Observações (Ex.: Manual também válido para MHDX 1005)" style="width: 600px; height: 70px;"/>
+
+                                    <h:panelGrid columns="2">
+                                        <p:commandButton value="Salvar" actionListener="#{dispositivoBean.inserir()}" update="outputPanel2" style="width: 300px; height: 45px;"/>
+                                        <p:commandButton value="Fechar" update=":form1:dataTable1" oncomplete="PF('widgetVar2').hide()" style="width: 300px; height: 45px;"/>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </p:fieldset>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="form3">
+                    <p:dialog header="Dispositivo - Alterar" widgetVar="widgetVar3" modal="true" closable="false">
+                        <p:outputPanel id="outputPanel3">
+                            <p:messages id="msg" />
+                            <p:fieldset>
+                                <h:inputHidden value="#{dispositivoBean.dispositivoSelecionado.codigo_dispositivo}"/>
+                                <h:panelGrid columns="2">
+
+                                    <h:outputText value="Marca: *" />
+                                    <p:inputText value="#{dispositivoBean.dispositivoSelecionado.marca_dispositivo}" style="width: 600px; height: 35px;"/>
+
+                                    <h:outputText value="Modelo: *" />
+                                    <p:inputText value="#{dispositivoBean.dispositivoSelecionado.modelo_dispositivo}" style="width: 600px; height: 35px;"/>
+
+                                    <h:outputText value="Porta (IPv4):" />
+                                    <p:inputTextarea value="#{dispositivoBean.dispositivoSelecionado.porta_dispositivo}" style="width: 600px; height: 70px;"/>
+
+                                    <h:outputText value="Manual:" />
+                                    <p:inputText value="#{dispositivoBean.dispositivoSelecionado.manual_dispositivo}" style="width: 600px; height: 35px;"/>
+
+                                    <h:outputText value="Nuvem (Cloud): *" />
+                                    <p:selectOneMenu value="#{dispositivoBean.dispositivoSelecionado.nuvem_dispositivo}" style="width: 610px; height: 35px;">
+                                        <f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Desconhecido" itemValue="I"/>
+                                        <f:selectItem itemLabel="Sim" itemValue="S"/>
+                                        <f:selectItem itemLabel="Não" itemValue="N"/>
+                                        <f:selectItems value="#{dispositivoBean.dispositivoSelecionado.nuvem_dispositivo}" />
+                                    </p:selectOneMenu>
+
+                                    <h:outputText value="IPv6: *" />
+                                    <p:selectOneMenu value="#{dispositivoBean.dispositivoSelecionado.ipv6_dispositivo}" style="width: 610px; height: 35px;">
+                                        <f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Desconhecido" itemValue="I"/>
+                                        <f:selectItem itemLabel="Sim" itemValue="S"/>
+                                        <f:selectItem itemLabel="Não" itemValue="N"/>
+                                        <f:selectItems value="#{dispositivoBean.dispositivoSelecionado.ipv6_dispositivo}"/>
+                                    </p:selectOneMenu>
+
+                                    <h:outputText value="Observações:" />
+                                    <p:inputTextarea value="#{dispositivoBean.dispositivoSelecionado.observacao_dispositivo}" style="width: 600px; height: 70px;"/>
+                                    <br/>
+                                    <h:panelGrid columns="2">
+                                        <p:commandButton value="Salvar" actionListener="#{dispositivoBean.alterar()}" update="outputPanel3" style="width: 300px; height: 45px;"/>
+                                        <p:commandButton value="Fechar" oncomplete="PF('widgetVar3').hide()" style="width: 300px; height: 45px;"/>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </p:fieldset>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="form4">
+                    <p:dialog header="Dispositivo - Excluir" widgetVar="widgetVar4" modal="true" closable="false">
+                        <p:outputPanel id="outputPanel4">
+                            <p:messages id="msg" />
+                            <p:fieldset>
+                                <h:inputHidden value="#{dispositivoBean.dispositivoSelecionado.codigo_dispositivo}"/>
+                                <h:panelGrid columns="2">
+
+                                    <h:outputText value="Marca:" />
+                                    <p:inputText value="#{dispositivoBean.dispositivoSelecionado.marca_dispositivo}" disabled="true" style="width: 600px; height: 35px;"/>
+
+                                    <h:outputText value="Modelo:" />
+                                    <p:inputText value="#{dispositivoBean.dispositivoSelecionado.modelo_dispositivo}" disabled="true" style="width: 600px; height: 35px;"/>
+                                    <br/>
+                                    <h:panelGrid columns="2">
+                                        <p:commandButton value="Confirmar" actionListener="#{dispositivoBean.excluir(dispositivoBean.dispositivoSelecionado.codigo_dispositivo)}" oncomplete="PF('widgetVar4').hide()" update="outputPanel4" style="width: 300px; height: 45px;"/>
+                                        <p:commandButton value="Fechar" oncomplete="PF('widgetVar4').hide()" style="width: 300px; height: 45px;"/>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </p:fieldset>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="form5">
+                    <p:dialog header="Dispositivo - Detalhar" widgetVar="widgetVar5" modal="true" maximizable="true" closable="false">
+                        <p:outputPanel id="outputPanel5">
+                            <p:panelGrid columns="2">
+                                <h:outputText value="Código (ID): " style="font-weight: bold;"/>
+                                <p:outputLabel value="#{dispositivoBean.dispositivoSelecionado.codigo_dispositivo}"/>
+
+                                <h:outputText value="Marca (Fabricante): " style="font-weight: bold;"/>
+                                <p:outputLabel value="#{dispositivoBean.dispositivoSelecionado.marca_dispositivo}"/>
+
+                                <h:outputText value="Modelo: " style="font-weight: bold;"/>
+                                <p:outputLabel value="#{dispositivoBean.dispositivoSelecionado.modelo_dispositivo}"/>
+
+                                <h:outputText value="Portas de comunicação (IPv4): " style="font-weight: bold;"/>
+                                <p:outputLabel value="#{dispositivoBean.dispositivoSelecionado.porta_dispositivo}"/>
+
+                                <h:outputText value="Manual (URL): " style="font-weight: bold;"/>
+                                <h:outputLink value="#{dispositivoBean.dispositivoSelecionado.manual_dispositivo}" target="_blank">
+                                    #{dispositivoBean.dispositivoSelecionado.manual_dispositivo}
+                                </h:outputLink>
+
+                                <h:outputText value="Nuvem (acesso P2P): " style="font-weight: bold;"/>
+                                <h:graphicImage value="#{dispositivoBean.dispositivoSelecionado.nuvem_dispositivo == 'I' ? '/imagem/des.png' : '' || dispositivoBean.dispositivoSelecionado.nuvem_dispositivo == 'S' ? '/imagem/sim.png' : '' || dispositivoBean.dispositivoSelecionado.nuvem_dispositivo == 'N' ? '/imagem/nao.png' : ''}"/>
+
+                                <h:outputText value="IPv6: " style="font-weight: bold;"/>
+                                <h:graphicImage value="#{dispositivoBean.dispositivoSelecionado.ipv6_dispositivo == 'I' ? '/imagem/des.png' : '' || dispositivoBean.dispositivoSelecionado.ipv6_dispositivo == 'S' ? '/imagem/sim.png' : '' || dispositivoBean.dispositivoSelecionado.ipv6_dispositivo == 'N' ? '/imagem/nao.png' : ''}"/>
+
+                                <h:outputText value="Observações: " style="font-weight: bold;"/>
+                                <p:outputLabel value="#{dispositivoBean.dispositivoSelecionado.observacao_dispositivo}"/>
+
+                                <h:outputText value="Data (Última atualização): " style="font-weight: bold;"/>
+                                <p:outputLabel value="#{dispositivoBean.dispositivoSelecionado.data_dispositivo}">
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+
+                                <h:outputText value="Hora (Última atualização): " style="font-weight: bold;"/>
+                                <p:outputLabel value="#{dispositivoBean.dispositivoSelecionado.hora_dispositivo}">
+                                    <f:convertDateTime type="time" pattern="HH:mm" timeZone="America/Fortaleza"/>
+                                </p:outputLabel>
+                            </p:panelGrid>
+                            <br/>
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="Fechar" oncomplete="PF('widgetVar5').hide()" style="width: 300px; height: 45px;"/>
+                            </h:panelGrid>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+                <p:panel>
+                    <i>Telenizar - versão #{usuarioBean.versao}</i>
+                </p:panel>
+            </p:panel>
+        </center>
+    </h:body>
+</html>

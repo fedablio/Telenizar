@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Telenizar - 5G OLT</title>
+    </h:head>
+    <h:body style="font-size: 12px; background-color: white;">
+        <center>
+            <p:panel>
+                <p:panel>
+                    <h:form id="form0">
+                        <p:panel style="width: auto; height: 50px;">
+                            <p:commandLink value="#{ont2428Bean.sessao}" actionListener="#{vaiBean.sair()}" title="#{vaiBean.titleLink1}"/>
+                        </p:panel>
+                        <p:menubar>
+                            <p:submenu label="Página" icon="ui-icon-transferthick-e-w">
+                                <p:menuitem value="Dispositivo" icon="ui-icon-lightbulb" actionListener="#{vaiBean.p_apple()}"/>
+                                <p:separator/>
+                                <p:menuitem value="EUI-64" icon="ui-icon-bullet" actionListener="#{vaiBean.p_lemon()}"/>
+                                <p:separator/>
+                                <p:menuitem value="Timbre" icon="ui-icon-mail-closed" actionListener="#{vaiBean.p_fig()}"/>
+                            </p:submenu>
+                            <p:submenu label="Zhone/DZS" icon="ui-icon-star">
+                                <p:menuitem value="Acesso Remoto" icon="ui-icon-contact" actionListener="#{vaiBean.p_cherry()}"/>
+                                <p:menuitem value="Reprovisionar" icon="ui-icon-minusthick" actionListener="#{vaiBean.p_guava()}"/>
+                                <p:submenu label="5G" icon="ui-icon-pin-w">
+                                    <p:menuitem value="OLT" icon="ui-icon-arrowthickstop-1-n" actionListener="#{vaiBean.p_cocoa()}"/>
+                                    <p:menuitem value="ONT" icon="ui-icon-arrowthickstop-1-s" actionListener="#{vaiBean.p_peach()}"/>
+                                </p:submenu>
+                                <p:menuitem value="NA" icon="ui-icon-radio-off" actionListener="#{vaiBean.p_plum()}"/>
+                                <p:menuitem value="Firmware (Up/Down)" icon="ui-icon-copy" actionListener="#{vaiBean.p_melon()}"/>
+                            </p:submenu>
+                            <p:submenu label="Arquivo" icon="ui-icon-document" >
+                                <p:menuitem value="Administrador" icon="ui-icon-person" actionListener="#{vaiBean.p_orange()}" disabled="#{dispositivoBean.disabled5}" />
+                            </p:submenu>
+                        </p:menubar>
+                    </h:form>
+                </p:panel>
+                <p:panel>
+                    <h4 style="margin-top:0">Ativar 2428 na OLT</h4>
+                    <font style="margin-top:0">Procedimento para trocar o profile de 2426 para 2428.</font>
+                </p:panel>
+                <p:panel>
+                    <h:form id="form1">
+                        <p:outputPanel id="outputPanel1">
+                            <p:messages id="msg" />
+                            <h:panelGrid columns="1" >
+                                <p:inputText value="#{ont2428Bean.ont2428.completa}" placeholder="Posição (Ex.: PON-X/XX/XX/XX.XX) *" style="width: 600px; height: 35px;"/>
+
+                                <h:panelGrid columns="2">
+                                    <p:commandButton value="Executar" actionListener="#{ont2428Bean.gerar()}" update="outputPanel1" style="width: 300px; height: 45px;"/>
+                                    <p:commandButton value="Limpar" actionListener="#{ont2428Bean.limpar()}" update="outputPanel1" style="width: 300px; height: 45px;"/>
+                                </h:panelGrid>
+
+                                <p:editor value="#{ont2428Bean.ont2428.script}"  width="600" height="250"/>
+                            </h:panelGrid>
+                        </p:outputPanel>
+                    </h:form>
+                </p:panel>
+                <p:panel>
+                    <i>Telenizar - versão #{usuarioBean.versao}</i>
+                </p:panel>
+            </p:panel>
+        </center>
+    </h:body>
+</html>

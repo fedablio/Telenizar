@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Telenizar - Administrador</title>
+    </h:head>
+    <h:body style="font-size: 12px; background-color: white;">
+        <center>
+            <p:panel>
+                <p:panel>
+                    <h:form id="form0">
+                        <p:panel style="width: auto; height: 50px;">
+                            <p:commandLink value="#{modeloBean.sessao}" actionListener="#{vaiBean.sair()}" title="#{vaiBean.titleLink1}"/>
+                        </p:panel>
+                        <p:menubar>
+                            <p:submenu label="Página" icon="ui-icon-transferthick-e-w">
+                                <p:menuitem value="Dispositivo" icon="ui-icon-lightbulb" actionListener="#{vaiBean.p_apple()}"/>
+                                <p:separator/>
+                                <p:menuitem value="EUI-64" icon="ui-icon-bullet" actionListener="#{vaiBean.p_lemon()}"/>
+                                <p:separator/>
+                                <p:menuitem value="Timbre" icon="ui-icon-mail-closed" actionListener="#{vaiBean.p_fig()}"/>
+                            </p:submenu>
+                            <p:submenu label="Zhone/DZS" icon="ui-icon-star">
+                                <p:menuitem value="Acesso Remoto" icon="ui-icon-contact" actionListener="#{vaiBean.p_cherry()}"/>
+                                <p:menuitem value="Reprovisionar" icon="ui-icon-minusthick" actionListener="#{vaiBean.p_guava()}"/>
+                                <p:submenu label="5G" icon="ui-icon-pin-w">
+                                    <p:menuitem value="OLT" icon="ui-icon-arrowthickstop-1-n" actionListener="#{vaiBean.p_cocoa()}"/>
+                                    <p:menuitem value="ONT" icon="ui-icon-arrowthickstop-1-s" actionListener="#{vaiBean.p_peach()}"/>
+                                </p:submenu>
+                                <p:menuitem value="NA" icon="ui-icon-radio-off" actionListener="#{vaiBean.p_plum()}"/>
+                                <p:menuitem value="Firmware (Up/Down)" icon="ui-icon-copy" actionListener="#{vaiBean.p_melon()}"/>
+                            </p:submenu>
+                            <p:submenu label="Arquivo" icon="ui-icon-document" >
+                                <p:menuitem value="Administrador" icon="ui-icon-person" actionListener="#{vaiBean.p_orange()}" disabled="#{dispositivoBean.disabled5}" />
+                            </p:submenu>
+                        </p:menubar>
+                    </h:form>
+                </p:panel>
+                <p:panel>
+                    <h4 style="margin-top:0">Alteração do sistema</h4>
+                    <font style="margin-top:0">Gerenciamento das senhas de acesso.</font>
+                </p:panel>
+                <p:panel>
+                    <h:form id="form1">
+                        <p:dataTable id="dataTable1" var="a" value="#{administradorBean.listarTodos}" selection="#{administradorBean.administradorSelecionado}" selectionMode="single" rowKey="#{a.codigo_usuario}" widgetVar="widgetVar1" emptyMessage="Sem dados." style="width: auto;">
+                            <f:facet name="header">
+                                -
+                            </f:facet>
+
+                            <p:column headerText="Usuário" style="text-align: center;">
+                                <p:outputLabel value="#{a.nick_usuario}"/>
+                            </p:column>
+
+                            <p:column headerText="Senha (Criptografada)" style="text-align: center;">
+                                <p:outputLabel value="#{a.senha_usuario}"/>
+                            </p:column>
+                            <p:ajax event="rowSelect" update="commandButton1" listener="#{administradorBean.onRowSelect(event)}" />
+                            <f:facet name="footer">
+                                <p:commandButton value="Alterar" id="commandButton1" update=":form2:outputPanel2" oncomplete="PF('widgetVar2').show()" disabled="#{administradorBean.disabled2}" style="width: 200px; height: 45px;"/>
+                            </f:facet>
+                        </p:dataTable>
+                    </h:form>
+
+                    <h:form id="form2">
+                        <p:dialog header="Administrador - Alterar" widgetVar="widgetVar2" modal="true" closable="false">
+                            <p:outputPanel id="outputPanel2">
+                                <p:messages id="msg" />
+                                <p:fieldset>
+                                    <h:inputHidden value="#{administradorBean.administradorSelecionado.codigo_usuario}"/>
+                                    <h:panelGrid columns="2">
+
+                                        <h:outputText value="Usuário: *" />
+                                        <p:inputText value="#{administradorBean.administradorSelecionado.nick_usuario}" placeholder="Este dado não é alterado." style="width: 600px; height: 35px;"/>
+
+                                        <h:outputText value="Senha: *" />
+                                        <p:password value="#{administradorBean.administradorSelecionado.senha_usuario}" placeholder="Só digite se quiser alterar." style="width: 600px; height: 35px;"/>
+                                        <br/>
+                                        <h:panelGrid columns="2">
+                                            <p:commandButton value="Salvar" actionListener="#{administradorBean.alterar()}" update="outputPanel2" style="width: 300px; height: 45px;"/>
+                                            <p:commandButton value="Fechar" oncomplete="PF('widgetVar2').hide()" style="width: 300px; height: 45px;"/>
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+                                </p:fieldset>
+                            </p:outputPanel>
+                        </p:dialog>
+                    </h:form>
+                </p:panel>
+                <p:panel>
+                    <h4 style="margin-top:0">Acessos</h4>
+                    <font style="margin-top:0">Consulta de acessos com IP, data e hora.</font>
+                </p:panel>
+                <p:panel>
+                    <h:form id="form3">
+                        <p:dataTable id="dataTable3" var="m" value="#{monitorBean.listarTodos}" rowKey="#{m.id_monitor}" selection="single" widgetVar="widgetVar3" emptyMessage="Sem dados." paginator="true" rows="10" filteredValue="#{monitorBean.listarTodosFiltro}" rowsPerPageTemplate="20,50,100" style="width: auto;">
+                            <f:facet name="header">
+                                -
+                            </f:facet>
+
+                            <p:column filterBy="#{m.nick_monitor}" headerText="Usuário" filterMatchMode="exact" style="text-align: center;">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu onchange="PF('widgetVar3').filter();" >
+                                        <f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="admin" itemValue="admin" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="usuarioFulano" itemValue="usuarioFulano" noSelectionOption="true" />
+                                    </p:selectOneMenu>
+                                </f:facet>
+                                <h:outputLabel value="#{m.nick_monitor}" />
+                            </p:column>
+
+                            <p:column headerText="IP" style="text-align: center;">
+                                <p:outputLabel value="#{m.ip_monitor}"/>
+                            </p:column>
+
+                            <p:column headerText="Data" sortBy="#{m.data_monitor}" style="text-align: center;">
+                                <p:outputLabel value="#{m.data_monitor}">
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+                            </p:column>
+
+                            <p:column headerText="Hora" style="text-align: center;">
+                                <p:outputLabel value="#{m.hora_monitor}">
+                                    <f:convertDateTime type="time" pattern="HH:mm:ss" timeZone="America/Fortaleza"/>
+                                </p:outputLabel>
+                            </p:column>
+
+                            <f:facet name="footer">
+                                -
+                            </f:facet>
+                        </p:dataTable>
+                    </h:form>
+                </p:panel>
+                <p:panel>
+                    <i>Telenizar - versão #{usuarioBean.versao}</i>
+                </p:panel>
+            </p:panel>
+        </center>
+    </h:body>
+</html>
+

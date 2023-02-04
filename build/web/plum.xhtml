@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Telenizar - NA</title>
+    </h:head>
+    <h:body style="font-size: 12px; background-color: white;">
+        <center>
+            <p:panel>
+                <p:panel>
+                    <h:form id="form0">
+                        <p:panel style="width: auto; height: 50px;">
+                            <p:commandLink value="#{modeloBean.sessao}" actionListener="#{vaiBean.sair()}" title="#{vaiBean.titleLink1}"/>
+                        </p:panel>
+                        <p:menubar>
+                            <p:submenu label="Página" icon="ui-icon-transferthick-e-w">
+                                <p:menuitem value="Dispositivo" icon="ui-icon-lightbulb" actionListener="#{vaiBean.p_apple()}"/>
+                                <p:separator/>
+                                <p:menuitem value="EUI-64" icon="ui-icon-bullet" actionListener="#{vaiBean.p_lemon()}"/>
+                                <p:separator/>
+                                <p:menuitem value="Timbre" icon="ui-icon-mail-closed" actionListener="#{vaiBean.p_fig()}"/>
+                            </p:submenu>
+                            <p:submenu label="Zhone/DZS" icon="ui-icon-star">
+                                <p:menuitem value="Acesso Remoto" icon="ui-icon-contact" actionListener="#{vaiBean.p_cherry()}"/>
+                                <p:menuitem value="Reprovisionar" icon="ui-icon-minusthick" actionListener="#{vaiBean.p_guava()}"/>
+                                <p:submenu label="5G" icon="ui-icon-pin-w">
+                                    <p:menuitem value="OLT" icon="ui-icon-arrowthickstop-1-n" actionListener="#{vaiBean.p_cocoa()}"/>
+                                    <p:menuitem value="ONT" icon="ui-icon-arrowthickstop-1-s" actionListener="#{vaiBean.p_peach()}"/>
+                                </p:submenu>
+                                <p:menuitem value="NA" icon="ui-icon-radio-off" actionListener="#{vaiBean.p_plum()}"/>
+                                <p:menuitem value="Firmware (Up/Down)" icon="ui-icon-copy" actionListener="#{vaiBean.p_melon()}"/>
+                            </p:submenu>
+                            <p:submenu label="Arquivo" icon="ui-icon-document" >
+                                <p:menuitem value="Administrador" icon="ui-icon-person" actionListener="#{vaiBean.p_orange()}" disabled="#{dispositivoBean.disabled5}" />
+                            </p:submenu>
+                        </p:menubar>
+                    </h:form>
+                </p:panel>
+                <p:panel>
+                    <h4 style="margin-top:0">Alterar o modelo da ONT para NA</h4>
+                    <font style="margin-top:0">Pode melhorar alguns parâmetros das redes wireless da ONT. Feito via CLI.</font>
+                </p:panel>
+                <p:panel>
+                    <h:form id="form1">
+                        <p:outputPanel id="outputPanel1">
+                            <p:messages id="msg" />
+                            <h:panelGrid columns="1">
+                                <strong>Modelo antes da atualização. Após a atualização, passam a terminar com NA:</strong>
+                                <p:selectOneRadio value="#{modeloBean.modelo.pais}" layout="pageDirection">
+                                    <f:selectItem itemValue="2426" itemLabel="ZNID-GPON-2426-EU"/>
+                                    <f:selectItem itemValue="2426a" itemLabel="ZNID-GPON-2426A-EU"/>
+                                    <f:selectItem itemValue="2426a1" itemLabel="ZNID-GPON-2426A1-EU"/>
+                                    <f:selectItem itemValue="2428a1" itemLabel="ZNID-GPON-2428A1-EU"/>
+                                    <f:selectItem itemValue="2428a1ocp" itemLabel="ZNID-GPON-2428A1-OCP-D"/>
+                                </p:selectOneRadio>
+                                <h:panelGrid columns="2">
+                                    <p:commandButton value="Executar" actionListener="#{modeloBean.gerar()}" update="outputPanel1" style="width: 300px; height: 45px;"/>
+                                    <p:commandButton value="Limpar" actionListener="#{modeloBean.limpar()}" update="outputPanel1" style="width: 300px; height: 45px;"/>
+                                </h:panelGrid>
+                                <p:editor value="#{modeloBean.modelo.script}" width="600" height="180"/>
+                            </h:panelGrid>
+                        </p:outputPanel>
+                    </h:form>
+                </p:panel>
+                <p:panel style="text-align: center;">
+                    <strong><font color="red">Atenção</font></strong><br/>
+                    <strong>Salve as configurações da ONT antes de aplicar os comandos</strong>. Tenha certeza da compatibilidade entre o código e o modelo da ONT, pois o comando errado pode "matar" a mesma.<br/><br/>
+                    <strong><font color="blue">Exemplo</font></strong><br/>
+                    Se o endereço de acesso remoto (HTTP) for <font style="font-style: italic;">172.25.25.25:55255</font>, o endereço de acesso por TELNET é <font style="font-style: italic;">172.25.25.25:55254</font> (a porta TELNET é um número a menos que a HTTP).
+                </p:panel>
+                <p:panel>
+                    <i>Telenizar - versão #{usuarioBean.versao}</i>
+                </p:panel>
+            </p:panel>
+        </center>
+    </h:body>
+</html>
+

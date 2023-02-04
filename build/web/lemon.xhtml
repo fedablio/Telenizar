@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Telenizar - EUI-64</title>
+    </h:head>
+    <h:body style="font-size: 12px; background-color: white;">
+        <center>
+            <p:panel>
+                <p:panel>
+                    <h:form id="form0">
+                        <p:panel style="width: auto; height: 50px;">
+                            <p:commandLink value="#{ipv6Bean.sessao}" actionListener="#{vaiBean.sair()}" title="#{vaiBean.titleLink1}"/>
+                        </p:panel>
+                        <p:menubar>
+                            <p:submenu label="Página" icon="ui-icon-transferthick-e-w">
+                                <p:menuitem value="Dispositivo" icon="ui-icon-lightbulb" actionListener="#{vaiBean.p_apple()}"/>
+                                <p:separator/>
+                                <p:menuitem value="EUI-64" icon="ui-icon-bullet" actionListener="#{vaiBean.p_lemon()}"/>
+                                <p:separator/>
+                                <p:menuitem value="Timbre" icon="ui-icon-mail-closed" actionListener="#{vaiBean.p_fig()}"/>
+                            </p:submenu>
+                            <p:submenu label="Zhone/DZS" icon="ui-icon-star">
+                                <p:menuitem value="Acesso Remoto" icon="ui-icon-contact" actionListener="#{vaiBean.p_cherry()}"/>
+                                <p:menuitem value="Reprovisionar" icon="ui-icon-minusthick" actionListener="#{vaiBean.p_guava()}"/>
+                                <p:submenu label="5G" icon="ui-icon-pin-w">
+                                    <p:menuitem value="OLT" icon="ui-icon-arrowthickstop-1-n" actionListener="#{vaiBean.p_cocoa()}"/>
+                                    <p:menuitem value="ONT" icon="ui-icon-arrowthickstop-1-s" actionListener="#{vaiBean.p_peach()}"/>
+                                </p:submenu>
+                                <p:menuitem value="NA" icon="ui-icon-radio-off" actionListener="#{vaiBean.p_plum()}"/>
+                                <p:menuitem value="Firmware (Up/Down)" icon="ui-icon-copy" actionListener="#{vaiBean.p_melon()}"/>
+                            </p:submenu>
+                            <p:submenu label="Arquivo" icon="ui-icon-document" >
+                                <p:menuitem value="Administrador" icon="ui-icon-person" actionListener="#{vaiBean.p_orange()}" disabled="#{dispositivoBean.disabled5}" />
+                            </p:submenu>
+                        </p:menubar>
+                    </h:form>
+                </p:panel>
+                <p:panel>
+                    <h4 style="margin-top:0">Montar um IPv6</h4>
+                    <font style="margin-top:0">Tendo como base o prefixo eo MAC Addres de 48 ou 64 bits.</font>
+                </p:panel>
+                <p:panel>
+                    <h:form id="form1">
+                        <p:outputPanel id="outputPanel1">
+                            <p:messages id="msg" />
+                            <h:panelGrid columns="1" >
+                                <p:selectOneMenu value="#{ipv6Bean.ipv6.bits}" style="width: 610px; height: 40px;">
+                                    <f:selectItem itemLabel="Interface (Ex.: 48 ou 64 Bits)" itemValue="" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="48 bits" itemValue="48" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="64 bits" itemValue="64" noSelectionOption="true" />
+                                </p:selectOneMenu>
+
+                                <p:inputText value="#{ipv6Bean.ipv6.mac}" placeholder="MAC Addres (Ex.: XX:XX:XX ou XX-XX-XX) *" style="width: 600px; height: 35px;"/>
+
+                                <p:inputText value="#{ipv6Bean.ipv6.prefixo}" placeholder="Prefixo IPv6 (Ex.: 2001.0000) *" style="width: 600px; height: 35px;"/>
+
+                                <p:inputText value="#{ipv6Bean.ipv6.resultado}" placeholder="IPv6" readonly="true" style="width: 600px; height: 35px; background-color: lightgray; color: white;"/>
+
+                                <h:panelGrid columns="2">
+                                    <p:commandButton value="Executar" actionListener="#{ipv6Bean.converter()}" update="outputPanel1" style="width: 300px; height: 45px;"/>
+                                    <p:commandButton value="Limpar" actionListener="#{ipv6Bean.limpar()}" update="outputPanel1" style="width: 300px; height: 45px;"/>
+                                </h:panelGrid>
+                                <p:panelGrid columns="1" style="width: 600px;">
+                                    <h:outputLink value="http://lg.ctbc.com.br/disclaimer.php" title="LG Algar" target="_blank" style="font-size: 16px;color: blue;">
+                                        LG Algar
+                                    </h:outputLink>
+                                    <h:outputLink value="http://www.ipv6now.com.au/pingme.php" title="IPv6 Now" target="_blank" style="font-size: 16px;color: blue;">
+                                        IPv6 Now
+                                    </h:outputLink>
+                                    <h:outputLink value="https://www.ipaddressguide.com/ping6" title="IP Address Guide" target="_blank" style="font-size: 16px;color: blue;">
+                                        IP Address Guide
+                                    </h:outputLink>
+                                    <h:outputLink value="https://www.ultratools.com/tools/ping6" title="Ultra Tools" target="_blank" style="font-size: 16px;color: blue;">
+                                        Ultra Tools
+                                    </h:outputLink>
+                                </p:panelGrid>
+                            </h:panelGrid>
+                        </p:outputPanel>
+                    </h:form>
+
+                </p:panel>
+                <p:panel>
+                    <h4 style="margin-top:0">Versão para Android</h4>
+                    <a href="https://play.google.com/store/apps/details?id=br.com.fedablio.ipv6iidmac" target="_blank"><img src="imagem/google-play.png" width="160" height="48"/></a>
+                </p:panel>
+                <p:panel style="text-align: justify;">
+                    <p>
+                        <strong>Um IID baseado no formato EUI-64 &eacute; criado da seguinte forma:</strong>
+                    </p>
+                    <p>
+                        Caso a interface possua um endere&ccedil;o MAC de 64 bits (padr&atilde;o EUI-64), basta complementar o s&eacute;timo bit mais a esquerda (chamado de bit U/L – Universal/Local) do endere&ccedil;o MAC, isto &eacute;, se for 1, ser&aacute; alterado para 0; se for 0, ser&aacute; alterado para 1. Caso a interface utilize um endere&ccedil;o MAC de 48 bits (padr&atilde;o IEEE 802), primeiro adiciona-se os d&iacute;gitos hexadecimais FF-FE entre o terceiro e quarto Byte do endere&ccedil;o MAC (transformando no padr&atilde;o EUI-64), e em seguida, o bit U/L &eacute; complementado. Por exemplo:
+                    </p>
+                    <p>
+                        Se o endere&ccedil;o MAC da interface for:<br/>
+                        <code>48-1E-C9-21-85-0C</code><br/>
+                        adiciona-se os d&iacute;gitos <code>FF-FE</code> na metade do endere&ccedil;o:<br/>
+                        <code>48-1E-C9-FF-FE-21-85-0C</code><br/>
+                        complementa-se o bit U/L:<br/>
+                        <code>48 = 01001000</code><br/>
+                        <code>010010<font style="color: red;">0</font>0 &raquo; 010010<font style="color: red;">1</font>0</code><br/>
+                        <code>01001010 = 4A</code><br/>
+                        <code>IID = 4A-1E-C9-FF-FE-21-85-0C</code>
+                    </p>
+                    <p>
+                        Um endere&ccedil;o link local atribu&iacute;do &agrave; essa interface seria <code>FE80::4A1E:C9FF:FE21:850C</code>.
+                    </p>
+                    <p>
+                        Para mais detalhes visite <a href="http://ipv6.br/post/enderecamento/" target="_blank">endere&ccedil;amento - IPv6.br</a>.
+                    </p>
+                </p:panel>
+                <p:panel>
+                    <i>Telenizar - versão #{usuarioBean.versao}</i>
+                </p:panel>
+            </p:panel>
+        </center>
+    </h:body>
+</html>
